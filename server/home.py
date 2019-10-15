@@ -14,11 +14,13 @@ class DataManager:
     bids = {}
     asks = {}
 
-    depth = 8
+    depth = 8 # Our depth is fixed to 8
 
+    # Returns the current timestamp (ex. 12-25-2019 05:09:22)
     async def now(self):
         return datetime.datetime.fromtimestamp(int(time.time())).strftime('%m-%d-%Y %H:%M:%S')
 
+    # Takes the cumulative sum at each price tick in the bid and ask book and shapes array (pre plotting)
     async def prepare2D(self, tickers):
         tickers = list(sorted(tickers))
         ticks, data, colors = [], [], []
@@ -37,23 +39,22 @@ class DataManager:
                 colors.append('limegreen' if np.sum(volB) > np.sum(volA) else 'red')
         return {'tickers': ticks, 'plot2D': data, 'colors2D': colors}
 
+    # Parses your tickers into an array
     async def load_tickers(self, resp):
         head = resp[0].keys()
         data = [[v[h] for h in head] for v in resp]
         frame = pd.DataFrame(data=data, columns=head)
         return frame
 
+    # Initalizes your orderbook data dictionaries
     async def place_books(self, resp):
         ticker = resp['product_id']
         fl = lambda x: [[float(j) for j in i] for i in x]
-        #self.bids[ticker] = pd.DataFrame(data=fl(resp['bids']), columns=['Price', 'Volume'])
-        #self.asks[ticker] = pd.DataFrame(data=fl(resp['asks']), columns=['Price','Volume'])
 
         self.bids[ticker] = {float(i[0]):float(i[1]) for i in resp['bids']}
         self.asks[ticker] = {float(i[0]):float(i[1]) for i in resp['asks']}
 
-
-
+    # Changes a particular order at a price tick (adding updating and removing orders)
     async def change_books(self, resp):
         try:
             ticker = resp['product_id']
@@ -79,6 +80,7 @@ class DataManager:
 
 class REST(DataManager):
 
+    # Fetches all trading tickers from Coinbase Pro (ex. BTC-USD, ETH-EUR)
     async def get_tickers(self, sess):
         method = "/products"
         async with sess.get(self.url + method) as resp:
@@ -93,6 +95,7 @@ class MarketData(REST):
         self.ws_url = "wss://ws-feed.pro.coinbase.com"
         self.sync = False
 
+    # Runs entire server
     async def start(self, ws):
         async with aiohttp.ClientSession() as sess:
             tickers = await self.get_tickers(sess)
@@ -100,6 +103,7 @@ class MarketData(REST):
             await asyncio.wait([asyncio.ensure_future(self.coinbase_client(sess, ticks)),
                                 asyncio.ensure_future(self.coinbase_server(ws, ticks))])
 
+    # Sends the finished orderbook arrays to be plotted in React
     async def coinbase_server(self, ws, ticks):
         await asyncio.sleep(3)
         print('Sending Data')
@@ -109,6 +113,7 @@ class MarketData(REST):
             await ws.send(json.dumps(msg))
             await asyncio.sleep(1.5)
 
+    # Subscribes to and receives orderbook data from Coinbase Pro
     async def coinbase_client(self, sess, ticks):
         async with sess.ws_connect(self.ws_url) as wss:
             msg = {"type": "subscribe",

@@ -1,8 +1,6 @@
 import asyncio
 import websockets
-import threading
 import time
-from subprocess import call
 
 from home import MarketData
 
