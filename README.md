@@ -11,10 +11,6 @@ I have included an ```install.py``` file which may be used for a full installati
 
 ```sh
 > pip3 install aiohttp websockets numpy pandas
-
-or 
-
-> ./install.sh
 ```
 
 To install the javascript libraries, you may simply run ``` npm install ``` (dependencies are included in package.json). 
@@ -34,11 +30,11 @@ Note I developed this using Python3.7 but Python3 should also work (works on my 
 
 ## Libraries Used :telephone:
 Python
-> asyncio<br/>
-> aiohttp<br/>
-> numpy<br/>
-> pandas <br/>
-> websockets<br/>
+- asyncio<br/>
+- aiohttp<br/>
+- numpy<br/>
+- pandas<br/>
+- websockets<br/>
 
 React.js
-> Plotly.js/React-Plotly.js
+- Plotly.js/React-Plotly.js
