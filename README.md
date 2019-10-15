@@ -3,6 +3,8 @@
 ## Description :pencil:
 A WebApp, developed using Python3 and React.js, which displays USD and BTC pair currencies live orderbook visualizations from Coinbase Pro.
 
+The plot is green whenever the volume on the Bid book is greater than the Ask book, and the plot is red whenever the volume on the Ask book is greater than the Bid book.
+
 ## Installation :alarm_clock:
 
 I have included an ```install.py``` file which may be used for a full installation. If you prefer the manual way you may simply type 
