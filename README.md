@@ -1,5 +1,9 @@
 # CoinbasePro Live Orderbook Plotter
 
+## Demo :tv:
+
+![Alt](https://github.com/MoSharieff/CoinbasePlot/blob/master/pics/demo2.gif)
+
 ## Description :pencil:
 A WebApp, developed using Python3 and React.js, which displays USD and BTC pair currencies live orderbook visualizations from Coinbase Pro.
 
@@ -23,18 +27,3 @@ Note I developed this using Python3.7 but Python3 should also work (works on my 
 > python3.7 server & npm start
 ```
 
-## Demo :tv:
-
-![Alt](https://github.com/MoSharieff/CoinbasePlot/blob/master/pics/demo.gif)
-
-
-## Libraries Used :telephone:
-Python
-- asyncio<br/>
-- aiohttp<br/>
-- numpy<br/>
-- pandas<br/>
-- websockets<br/>
-
-React.js
-- Plotly.js/React-Plotly.js
