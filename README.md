@@ -2,7 +2,7 @@
 
 ## Demo :tv:
 
-![Alt](https://github.com/MoSharieff/CoinbasePlot/blob/master/pics/demo2.gif)
+![Alt](https://github.com/MoSharieff/CoinbasePlot/blob/master/pics/example.gif)
 
 ## Description :pencil:
 A WebApp, developed using Python3 and React.js, which displays live orderbook visualizations for all crypto-currency pairs trading on Coinbase Pro.
@@ -26,4 +26,5 @@ Note I developed this using Python3.7 but Python3 should also work (works on my 
 ```sh
 > python3.7 server & npm start
 ```
+
 
