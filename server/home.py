@@ -20,6 +20,27 @@ class DataManager:
     async def now(self):
         return datetime.datetime.fromtimestamp(int(time.time())).strftime('%m-%d-%Y %H:%M:%S')
 
+    # Sorts outputted message to display tabbed plots
+
+    async def final_preperation(self, msg):
+        await asyncio.sleep(0.000001)
+        ticks = set([i.split('-')[1] for i in msg['tickers']])
+        outTicks = {}
+        try:
+            for t in ticks:
+                for ft, fp, fc in zip(msg['tickers'], msg['plot2D'], msg['colors2D']):
+                    if ft.split('-')[1] == t:
+                        if t not in outTicks.keys():
+                            outTicks[t] = {'tickers': [ft], 'plot2D': [fp], 'colors2D': [fc]}
+                        else:
+                            for ii, jj in zip(('tickers', 'plot2D', 'colors2D'), (ft, fp, fc)):
+                                outTicks[t][ii].append(jj)
+        except Exception as e:
+            print("Final error: ", e)
+        return outTicks
+
+
+
     # Takes the cumulative sum at each price tick in the bid and ask book and shapes array (pre plotting)
     async def prepare2D(self, tickers):
         tickers = list(sorted(tickers))
@@ -99,7 +120,8 @@ class MarketData(REST):
     async def start(self, ws):
         async with aiohttp.ClientSession() as sess:
             tickers = await self.get_tickers(sess)
-            ticks = [str(i).replace(' ', '') for i in tickers['id'].values if 'USD' == i.split('-')[1] or 'BTC' == i.split('-')[1]]
+            ticks = [str(i).replace(' ', '') for i in tickers['id'].values]# if 'USD' == i.split('-')[1] or 'BTC' == i.split('-')[1]]
+
             await asyncio.wait([asyncio.ensure_future(self.coinbase_client(sess, ticks)),
                                 asyncio.ensure_future(self.coinbase_server(ws, ticks))])
 
@@ -109,6 +131,7 @@ class MarketData(REST):
         print('Sending Data')
         while True:
             msg = await self.prepare2D(ticks)
+            msg = await self.final_preperation(msg)
             print('Sending Message Length: {}'.format(len(msg)))
             await ws.send(json.dumps(msg))
             await asyncio.sleep(1.5)
