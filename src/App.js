@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
-import OrderBooks from './components/orderbooks.js';
 import title from './images/title.png';
 
 import Plot from 'react-plotly.js';
@@ -92,7 +91,7 @@ export default class App extends Component {
                         },
                         yaxis: {
                           title: {
-                            text: 'Bid/Ask Price',
+                            text: 'Volume Sum',
                             font: {
                               color: fg
                             }
@@ -125,7 +124,7 @@ export default class App extends Component {
     const tabNames = this.renderTabs()
     const tabItems = this.renderBooks()
 
-    const bg = 'grey'
+    const bg = 'black'
     const fg = 'cyan'
 
     return (
@@ -133,7 +132,7 @@ export default class App extends Component {
             <center>
                 <img src={title} alt="title" style={titleStyle} />
                 <Tabs>
-                    <TabList style={{backgroundColor: bg}}>
+                    <TabList style={{backgroundColor: fg, fontSize: 30}}>
                         { tabNames }
                     </TabList>
                     { tabItems }
