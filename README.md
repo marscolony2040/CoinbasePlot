@@ -5,7 +5,7 @@
 ![Alt](https://github.com/MoSharieff/CoinbasePlot/blob/master/pics/demo2.gif)
 
 ## Description :pencil:
-A WebApp, developed using Python3 and React.js, which displays USD and BTC pair currencies live orderbook visualizations from Coinbase Pro.
+A WebApp, developed using Python3 and React.js, which displays live orderbook visualizations for all crypto-currency pairs trading on Coinbase Pro.
 
 The plot is green whenever the volume on the Bid book is greater than the Ask book, and the plot is red whenever the volume on the Ask book is greater than the Bid book.
 
